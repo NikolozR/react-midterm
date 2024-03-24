@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import UserContext from '../contexts/userContext'
 
 function UserRoutes() {
+    const {user} = useContext(UserContext)
   return (
-    <div>UserRoutes</div>
+    <div>{user.name}</div>
   )
 }
 

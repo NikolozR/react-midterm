@@ -17,7 +17,7 @@ export default function useGetProfile(queryClient) {
     },
     {
       onSuccess: (data) => {
-        sessionStorage.setItem("user", data.role);
+        sessionStorage.setItem("user", JSON.stringify(data));
         queryClient.invalidateQueries("products")
       } 
     }

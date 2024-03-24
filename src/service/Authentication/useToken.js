@@ -8,7 +8,9 @@ export default function useToken(queryClient) {
   }, {
     onSuccess: (data) => {
       sessionStorage.setItem('access_token', data.access_token)
+      localStorage.setItem('access_token', data.access_token)
       sessionStorage.setItem('refresh_token', data.refresh_token)
+      localStorage.setItem('refresh_token', data.refresh_token)
       queryClient.invalidateQueries("products")
     },
   });
