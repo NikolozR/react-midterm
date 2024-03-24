@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 export default function useYupValidationResolver(validationSchema) {
-  useCallback(
+ return useCallback(
     async (data) => {
       try {
         const values = await validationSchema.validate(data, {

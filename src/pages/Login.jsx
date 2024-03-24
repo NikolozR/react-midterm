@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as yup from "yup";
+import { validationSchema } from "../service/validation/validationSchema";
 import { useForm } from "react-hook-form";
 import useYupValidationResolver from "../service/validation/useYupValidationResolver";
 import useGetProfile from "../service/Authentication/useGetProfile";
@@ -7,17 +7,17 @@ import { useQueryClient } from "react-query";
 import useToken from "../service/Authentication/useToken";
 import UserContext from "../contexts/userContext";
 
-const validationSchema = yup.object({
-  email: yup.string().required("Required"),
-  password: yup.string().required("Required"),
-});
-
 function Login() {
+  // Declaration of variables and states
+  const queryClient = useQueryClient();
   const { setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
+  const { getToken, isLoading: tokenLoading } = useToken(queryClient);
+  const { getProfile, isLoading: profileLoading } = useGetProfile(queryClient);
   const {
     register,
     handleSubmit,
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: "john@mail.com",
@@ -25,16 +25,8 @@ function Login() {
     },
     resolver: useYupValidationResolver(validationSchema),
   });
-  const queryClient = useQueryClient();
-  const { getToken, isLoading: tokenLoading } = useToken(queryClient);
-  const { getProfile, isLoading: profileLoading } = useGetProfile(queryClient);
-  const onSubmit = async (data) => {
-    const tokens = await getToken(data);
-    if (tokens && tokens.access_token) {
-      const res = await getProfile(tokens.access_token);
-      setUser(res);
-    }
-  };
+
+  // checking for refresh, if user already signed in
   useEffect(() => {
     const res = sessionStorage.getItem("user");
     if (res) {
@@ -43,22 +35,37 @@ function Login() {
     setLoading(false);
   }, []);
 
+  // if loading, nothing to show, otherwise login form is back
   return loading ? (
     <></>
   ) : (
     <div className="container">
       <h1>Log in to Gooners</h1>
       <p>Enter your details below</p>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        action=""
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            const tokens = await getToken(data);
+            if (tokens && tokens.access_token) {
+              const res = await getProfile(tokens.access_token);
+              setUser(res);
+            }
+          } catch (err) {
+            alert("Not logged in");
+          }
+        })}
+      >
         <input type="email" placeholder="Your email" {...register("email")} />
+        {errors?.email?.message}
         <input
           type="password"
           placeholder="Password"
           {...register("password")}
         />
-
+        {errors?.password?.message}
         <button disabled={tokenLoading || profileLoading} type="submit">
-          Sumit
+          Submit
         </button>
       </form>
     </div>

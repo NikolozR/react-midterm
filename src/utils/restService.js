@@ -14,7 +14,9 @@ export default async function restService(endpoint, subEndpoint, method, header,
     .then(res => {
         return res.data
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+        throw new Error(err.message)
+    })
 }
 
 

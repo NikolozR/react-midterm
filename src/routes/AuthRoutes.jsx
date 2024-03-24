@@ -9,6 +9,7 @@ function AuthRoutes() {
         <Route path="/" element={<AuthLayout />}>
           <Route index element={<Login />} />
           <Route path="registration" element={<Register />} />
+          <Route path="*" element={<Register />} />
         </Route>
       </Routes>
     </BrowserRouter>
