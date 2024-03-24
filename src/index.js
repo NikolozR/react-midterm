@@ -8,12 +8,15 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 50000,
-      refetchInterval: 50000,
+      staleTime: 1.728e9,
       refetchOnWindowFocus: false,
-      retryOnMount: false
-    }
-  }
+      retryOnMount: false,
+      refetchOnMount: false,
+      refetchIntervalInBackground: false,
+      refetchInterval: 1.728e9,
+      cacheTime: 1.728e9,
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
