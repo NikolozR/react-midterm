@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import useYupValidationResolver from "../service/validation/useYupValidationResolver";
 import useGetProfile from "../service/Authentication/useGetProfile";
 import { useQueryClient } from "react-query";
 import useToken from "../service/Authentication/useToken";
+import UserContext from "../contexts/userContext";
 
 const validationSchema = yup.object({
   username: yup.string().required("Required"),
@@ -12,6 +13,7 @@ const validationSchema = yup.object({
 });
 
 function Login() {
+  const {setUser} = useContext(UserContext)
   const {
     register,
     handleSubmit,
@@ -25,13 +27,14 @@ function Login() {
   });
 
   const queryClient = useQueryClient();
-  const {getToken} = useToken(queryClient)
-  const { getProfile } = useGetProfile(queryClient)
+  const {getToken, isLoading: tokenLoading} = useToken(queryClient)
+  const { getProfile, isLoading: profileLoading } = useGetProfile(queryClient)
    
   const onSubmit = async (data) => {
     const tokens = await getToken(data);
     if (tokens && tokens.access_token) {
-      await getProfile(tokens.access_token);
+      const res = await getProfile(tokens.access_token)
+      setUser(res)
     }
   };
  
@@ -46,7 +49,7 @@ function Login() {
         <input type="email" placeholder="Your email" {...register("email")} />
         <input type="password" placeholder="Password" {...register("password")} />
 
-        <button type="submit">Sumit</button>
+        <button disabled={tokenLoading || profileLoading} type="submit">Sumit</button>
       </form>
     </div>
   );

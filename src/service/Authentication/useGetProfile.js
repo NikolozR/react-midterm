@@ -2,7 +2,7 @@ import restService from "../../utils/restService";
 import { useMutation } from "react-query";
 
 export default function useGetProfile(queryClient) {
-  const { mutate, isLoading, isError, isSuccess } = useMutation(
+  const { mutateAsync, isLoading, isError, isSuccess } = useMutation(
     async (token) => {
       const data = await restService(
         "auth",
@@ -17,13 +17,13 @@ export default function useGetProfile(queryClient) {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
+        sessionStorage.setItem("user", data.role);
         queryClient.invalidateQueries("products")
       } 
     }
   );
   return {
-    getProfile: async (token) => mutate(token),
+    getProfile: async (token) => mutateAsync(token),
     isLoading,
     isError,
     isSuccess,
