@@ -1,24 +1,18 @@
 import './App.css';
-import { QueryClient, QueryClientProvider } from "react-query";
+
+import useToken from './service/Authentication/useToken';
 
 
 function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 50000,
-        refetchInterval: 50000,
-        refetchOnWindowFocus: false,
-        retryOnMount: false
-      }
-    }
+  const {data} = useToken({
+    "email": "john@mail.com",
+    "password": "changeme"
   })
-
-
+  console.log(data);
   return (
-    <QueryClientProvider client={queryClient}>
-      
-    </QueryClientProvider>
+    <div className="test">
+      {data?.access_token}
+    </div>
   );
 }
 
