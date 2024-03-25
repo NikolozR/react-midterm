@@ -6,10 +6,8 @@ export default function useToken(queryClient) {
     async (body) => {
       try {
         const data = await restService("auth", "login", "POST", "", body);
-        console.log(data);
         return data;
       } catch (err) {
-        console.log("Fdhgrtrg");
         throw new Error(err);
       }
     },

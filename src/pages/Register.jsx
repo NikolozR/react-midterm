@@ -31,6 +31,8 @@ function Register() {
     const res = sessionStorage.getItem("user");
     if (res) {
       setUser(JSON.parse(res));
+    } else {
+      navigate('/register')
     }
     setLoading(false);
   }, []);

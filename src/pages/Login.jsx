@@ -26,11 +26,12 @@ function Login() {
     },
     resolver: useYupValidationResolver(validationSchemaLogin),
   });
-  console.log(errors);
   useEffect(() => {
     const res = sessionStorage.getItem("user");
     if (res) {
       setUser(JSON.parse(res));
+    } else {
+      navigate('/')
     }
     setLoading(false);
   }, []);
@@ -44,7 +45,6 @@ function Login() {
       <form
         action=""
         onSubmit={handleSubmit(async (data) => {
-          console.log(data);
           try {
             const tokens = await getToken(data);
             if (tokens && tokens.access_token) {
