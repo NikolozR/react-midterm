@@ -8,7 +8,7 @@ export const validationSchemaRegister = yup.object({
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
-    
+    // სხვა რაღაცებით ვალიდაციის შემდეგ API იძლეოდა Bad request-ს, სრულიად ამოუცნობი რამე
     .required("Required"),
 });
 
