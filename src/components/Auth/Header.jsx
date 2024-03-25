@@ -1,5 +1,6 @@
 import Button from "../Button";
 import { Link } from "react-router-dom";
+import '../../styles/Header.scss'
 function Header() {
   return (
     <header>

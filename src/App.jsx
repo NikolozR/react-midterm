@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import "./App.scss";
 import UserContext from "./contexts/userContext";
 import UserRoutes from  './routes/UserRoutes';
 import AdminRoutes from  './routes/AdminRoutes';

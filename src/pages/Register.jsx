@@ -1,19 +1,17 @@
 import React, { useContext, useCallback, useEffect, useState } from "react";
-import { validationSchema } from "../service/validation/validationSchema";
+import { validationSchemaRegister } from "../service/validation/validationSchemaRegister";
 import { useForm } from "react-hook-form";
 import useYupValidationResolver from "../service/validation/useYupValidationResolver";
 import { useQueryClient } from "react-query";
+import {useNavigate } from 'react-router-dom'
 import UserContext from "../contexts/userContext";
 import usePostUsers from "../service/Users/usePostUsers";
 
-  
-
-
 function Register() {
-  // Declaration of variables and states
   const queryClient = useQueryClient();
   const { setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   const { createUser } = usePostUsers(queryClient);
   const {
     register,
@@ -26,10 +24,9 @@ function Register() {
       password: "1234",
       avatar: "https://picsum.photos/800",
     },
-    resolver: useYupValidationResolver(validationSchema),
+    resolver: useYupValidationResolver(validationSchemaRegister),
   });
 
-  // checking for refresh, if user already signed in
   useEffect(() => {
     const res = sessionStorage.getItem("user");
     if (res) {
@@ -38,7 +35,6 @@ function Register() {
     setLoading(false);
   }, []);
 
-  // if loading, nothing to show, otherwise login form is back
   return loading ? (
     <></>
   ) : (
@@ -46,9 +42,12 @@ function Register() {
       <h1>Log in to Gooners</h1>
       <p>Enter your details below</p>
       <form
+        noValidate
         action=""
         onSubmit={handleSubmit(async (data) => {
-          setUser(await createUser(data));
+          const user = await createUser(data) 
+          setUser(user);
+          navigate(`/customer/products`)
         })}
       >
         <input
@@ -59,14 +58,15 @@ function Register() {
           {...register("name")}
         />
         <input type="email" placeholder="Your email" {...register("email")} />
-        
+        {errors?.email && <span>{errors?.email.message}</span>}
         <input
           type="password"
           placeholder="Password"
           {...register("password")}
-        />
+          />
+          {errors?.password && <span>{errors?.password.message}</span>}
         <input
-        disabled
+          disabled
           type="file"
           id="avatar"
           name="avatar"

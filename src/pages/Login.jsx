@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { validationSchema } from "../service/validation/validationSchema";
+import { validationSchemaLogin } from "../service/validation/validationSchemaLogin";
 import { useForm } from "react-hook-form";
 import useYupValidationResolver from "../service/validation/useYupValidationResolver";
 import useGetProfile from "../service/Authentication/useGetProfile";
 import { useQueryClient } from "react-query";
 import useToken from "../service/Authentication/useToken";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/userContext";
 
 function Login() {
-  // Declaration of variables and states
   const queryClient = useQueryClient();
   const { setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   const { getToken, isLoading: tokenLoading } = useToken(queryClient);
   const { getProfile, isLoading: profileLoading } = useGetProfile(queryClient);
   const {
@@ -23,10 +24,9 @@ function Login() {
       email: "john@mail.com",
       password: "changeme",
     },
-    resolver: useYupValidationResolver(validationSchema),
+    resolver: useYupValidationResolver(validationSchemaLogin),
   });
-
-  // checking for refresh, if user already signed in
+  console.log(errors);
   useEffect(() => {
     const res = sessionStorage.getItem("user");
     if (res) {
@@ -35,7 +35,6 @@ function Login() {
     setLoading(false);
   }, []);
 
-  // if loading, nothing to show, otherwise login form is back
   return loading ? (
     <></>
   ) : (
@@ -45,11 +44,13 @@ function Login() {
       <form
         action=""
         onSubmit={handleSubmit(async (data) => {
+          console.log(data);
           try {
             const tokens = await getToken(data);
             if (tokens && tokens.access_token) {
               const res = await getProfile(tokens.access_token);
               setUser(res);
+              navigate(`/customer/products`)
             }
           } catch (err) {
             alert("Not logged in");
