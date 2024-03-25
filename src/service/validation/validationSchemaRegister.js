@@ -1,14 +1,11 @@
 import * as yup from "yup";
 
-
-
 export const validationSchemaRegister = yup.object({
-  name: yup.string().required(),
-  email: yup.string().email('Invalid Email Address').required("Required"),
+  name: yup.string().required("Required"),
+  email: yup.string().email("Invalid Email Address").required("Required"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
-    // სხვა რაღაცებით ვალიდაციის შემდეგ API იძლეოდა Bad request-ს, სრულიად ამოუცნობი რამე
+    // with other validations methods the API returns BAD REQUEST, no idea why
     .required("Required"),
 });
-
