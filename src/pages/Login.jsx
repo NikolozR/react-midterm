@@ -55,7 +55,7 @@ function Login() {
               if (tokens && tokens.access_token) {
                 const res = await getProfile(tokens.access_token);
                 setUser(res);
-                navigate(`/customer/products`);
+                navigate(`/${res?.role}/products`);
               }
             } catch (err) {
               alert("Not logged in");

@@ -26,13 +26,11 @@ function Header() {
                         </Link>
                     </li>
                     <li>
+                        <Link to="/">
+                            <Button className={'logout'} onClick={handleLogOut}>Log out</Button>
+                        </Link>
                         <p>{user.name}</p>
                         <img src={user.avatar} className="avatar" alt="Avatar" />
-                    </li>
-                    <li>
-                        <Link to="/">
-                            <Button onClick={handleLogOut}>Log out</Button>
-                        </Link>
                     </li>
                 </ul>
             </div>
