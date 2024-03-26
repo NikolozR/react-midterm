@@ -11,15 +11,7 @@ export default function usePostProducts(queryClient) {
       }
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries('products')
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    },
-    {
-      onSuccess: queryClient.invalidateQueries("products"),
+      onSuccess: () => {queryClient.invalidateQueries('products')}
     }
   );
   return {

@@ -1,16 +1,20 @@
 import useGetProducts from "../service/Products/useGetProducts";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import "../styles/Products.scss";
 import useDeleteProducts from "../service/Products/useDeleteProducts";
 import { useQueryClient } from "react-query";
 
 function Products() {
   const queryClient = useQueryClient();
-  const { data, isLoading } = useGetProducts();
+  const { data, isLoading, refetch} = useGetProducts();
   const {deleteProduct} = useDeleteProducts(queryClient)
   const navigate = useNavigate();
 
+  useEffect(() => {
+    refetch()
+  }, [refetch]);
 
   return (
     <section className="products">

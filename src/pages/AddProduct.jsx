@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import usePostProducts from "../service/Products/usePostProducts";
 import { useQueryClient } from "react-query";
@@ -11,7 +10,7 @@ import useGetCategories from "../service/Categories/useGetCategories";
 function AddProduct() {
   const queryClient = useQueryClient();
   const { createProduct } = usePostProducts(queryClient);
-  const { data, isLoading, isSuccess } = useGetCategories();
+  const { data } = useGetCategories();
 
   const {
     register,
@@ -46,7 +45,7 @@ function AddProduct() {
               categoryId: parseInt(data?.categoryId),
               images: urls,
             });
-            reset()
+            reset();
           })}
         >
           <input
@@ -91,7 +90,8 @@ function AddProduct() {
           {errors?.categoryId && (
             <span className="error">{errors?.categoryId.message}</span>
           )}
-          <button type="submit">Add Product</button>
+            <button type="submit">Add Product</button>
+        
         </form>
       </div>
     </main>

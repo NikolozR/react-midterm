@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 
 
 export default function useGetProducts(id) {
-    const {data, isLoading, isSuccess} = useQuery({
+    const {data, isLoading, isSuccess, refetch} = useQuery({
         queryKey: ['products', id],
         queryFn: async () => {
             const data = await restService('products', id, "GET")
@@ -14,5 +14,5 @@ export default function useGetProducts(id) {
         },
         onError: (error) => console.log(error),
     })
-    return {data, isLoading, isSuccess}
+    return {data, isLoading, isSuccess, refetch}
 }
