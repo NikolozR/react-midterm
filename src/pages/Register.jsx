@@ -8,8 +8,12 @@ import UserContext from "../contexts/userContext";
 import usePostUsers from "../service/Users/usePostUsers";
 import {faker} from '@faker-js/faker'
 import '../styles/Form.scss'
+import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+
 
 function Register() {
+  const [showPassword, setShowPassword] = useState(false)
   const queryClient = useQueryClient();
   const { setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -70,11 +74,19 @@ function Register() {
           {errors?.name && <span className="error">{errors?.name?.message}</span>}
           <input type="email" placeholder="Your email" {...register("email")} />
           {errors?.email && <span className="error">{errors?.email.message}</span>}
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              {...register("password")}
+            />
+            <div
+              className="show-password-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
+            </div>
+          </div>
           {errors?.password && <span className="error">{errors?.password.message}</span>}
           <button type="submit">Submit</button>
         </form>
