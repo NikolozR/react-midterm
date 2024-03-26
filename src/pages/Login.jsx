@@ -7,7 +7,7 @@ import { useQueryClient } from "react-query";
 import useToken from "../service/Authentication/useToken";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/userContext";
-import "../styles/Login.scss";
+import "../styles/Form.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 

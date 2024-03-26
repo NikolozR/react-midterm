@@ -1,15 +1,17 @@
 import restService from "../../utils/restService";
-import { useMutation, queryClient } from "react-query";
+import { useMutation } from "react-query";
 
-export default function usePostProducts() {
+export default function useDeleteProducts(queryClient) {
   const { mutate, isLoading, isError, isSuccess, error } = useMutation(
-    restService,
+    (data) => {
+      return restService("products", data, "DELETE");
+    },
     {
-      onSuccess: queryClient.invalidateQueries("products"),
+      onSuccess: () => queryClient.invalidateQueries("products"),
     }
   );
   return {
-    changeProduct: (id) => mutate("products", id, "DELETE"),
+    deleteProduct: (id) => mutate(id),
     isLoading,
     isError,
     isSuccess,

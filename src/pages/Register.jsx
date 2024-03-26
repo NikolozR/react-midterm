@@ -6,7 +6,7 @@ import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/userContext";
 import usePostUsers from "../service/Users/usePostUsers";
-import '../styles/Login.scss'
+import '../styles/Form.scss'
 
 function Register() {
   const queryClient = useQueryClient();

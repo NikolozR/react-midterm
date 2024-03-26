@@ -4,6 +4,7 @@ main {
             font-size: 40px;
             text-align: center;
         }
+
         form {
             margin-top: 70px;
             display: flex;
@@ -11,6 +12,7 @@ main {
             justify-content: center;
             align-items: center;
             width: 100%;
+
             input {
                 width: 50%;
                 border-radius: 10px;
@@ -19,12 +21,39 @@ main {
                 margin-bottom: 10px;
                 font-size: 24px;
             }
+
+            select {
+                width: 50%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px;
+                margin-bottom: 30px;
+                color: #333;
+                &:hover {
+                    border-color: #999;
+                }
+                &:focus {
+                    outline: none;
+                    border-color: #555;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                }
+            }
+            option {
+                font-size: 14px;
+                color: #555;
+            }
+            option[disabled] {
+                color: #999;
+            }
             .password-container {
                 position: relative;
                 width: 50%;
+
                 input {
                     width: 100%;
                 }
+
                 .show-password-btn {
                     position: absolute;
                     right: 10px;
@@ -39,11 +68,13 @@ main {
                     color: black;
                 }
             }
+
             .error {
                 color: red;
                 font-size: 20px;
                 margin-bottom: 20px;
             }
+
             input:focus-visible {
                 outline: none;
             }

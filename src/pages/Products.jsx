@@ -2,10 +2,15 @@ import useGetProducts from "../service/Products/useGetProducts";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import "../styles/Products.scss";
+import useDeleteProducts from "../service/Products/useDeleteProducts";
+import { useQueryClient } from "react-query";
 
 function Products() {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useGetProducts();
+  const {deleteProduct} = useDeleteProducts(queryClient)
   const navigate = useNavigate();
+
 
   return (
     <section className="products">
@@ -22,7 +27,8 @@ function Products() {
                   title={el.title}
                   description={el.description}
                   price={el.price}
-                  onClick={() => navigate(`${el.id}`)}
+                  handleProductClik={() => navigate(`${el.id}`)}
+                  handleDelete={() => deleteProduct(el.id)}
                 />
               );
             })

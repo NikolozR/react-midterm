@@ -20,7 +20,7 @@ function Header() {
           <ul>
             <li>
               <Link to="/admin/products">Products</Link>
-              <Link to={"/admin/add-product"}>Add Product</Link>
+              <Link to={"/admin/addProduct"}>Add Product</Link>
             </li>
             <li>
               <Link to="/">
