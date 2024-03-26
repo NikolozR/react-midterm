@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { validationSchemaRegister } from "../service/validation/validationSchemaRegister";
 import { useForm } from "react-hook-form";
 import useYupValidationResolver from "../service/validation/useYupValidationResolver";
@@ -6,6 +6,7 @@ import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/userContext";
 import usePostUsers from "../service/Users/usePostUsers";
+import {faker} from '@faker-js/faker'
 import '../styles/Form.scss'
 
 function Register() {
@@ -23,7 +24,7 @@ function Register() {
       name: "",
       email: "",
       password: "",
-      avatar: "https://picsum.photos/800",
+      avatar: "",
     },
     resolver: useYupValidationResolver(validationSchemaRegister),
   });
@@ -48,7 +49,13 @@ function Register() {
           noValidate
           action=""
           onSubmit={handleSubmit(async (data) => {
-            const user = await createUser(data);
+            const formData = {
+              name: data?.name,
+              email: data?.email,
+              password: data?.password,
+              avatar: faker.image.avatar(),
+            }
+            const user = await createUser(formData);
             setUser(user);
             navigate(`/customer/products`);
           })}
@@ -69,14 +76,6 @@ function Register() {
             {...register("password")}
           />
           {errors?.password && <span className="error">{errors?.password.message}</span>}
-          <input
-            disabled
-            type="file"
-            id="avatar"
-            name="avatar"
-            accept="image/*"
-            {...register("avatar")}
-          />
           <button type="submit">Submit</button>
         </form>
       </div>
